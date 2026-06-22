@@ -2,6 +2,7 @@ from flask import Flask
 from routes.init import register_blueprints
 from dotenv import load_dotenv
 from os import getenv
+from config.db import connect_to_database
 
 # Main app instance
 app = Flask(__name__)
@@ -17,6 +18,9 @@ if __name__ == "__main__":
 
     # Loading env
     load_dotenv()
-    
     port = getenv("PORT") if getenv("PORT") else 5000
+
+    # Connecting to database
+    connect_to_database()
+
     app.run(debug=True, port=port)
