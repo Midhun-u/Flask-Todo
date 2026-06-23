@@ -1,5 +1,6 @@
 from flask import request, Response
-from uuid import uuid4
+from models.user_model import UsersModel
+from utils.hash_password import hash_password
 
 def sign_controller():
     
@@ -9,18 +10,33 @@ def sign_controller():
     password = body.get("password")
 
     try:
-        if not fullname or not email or not password:
+        if not fullname.strip() or not email.strip() or not password.strip():
             return {"success": False}
 
-        if len(fullname) < 3 or len(fullname) > 30:
+        if len(fullname.strip()) < 3 or len(fullname.strip()) > 30:
             return {"success": False, "error": "Invalid fields", "status_code": 400}, 400
 
-        if len(password) < 6 or len(password) > 50:
-            return {"success": False, "error": "Password should be 6 letters or above", "status_code": 400}, 400
-        
-        
+        if len(password.strip()) < 6 or len(password.strip()) > 50:
+            return {"success": False, "error": "Password should be 6 letters or above", "status_code": 400}, 400          
         
     except KeyError:
         return {"success": False, "error": "Invalid fields", "status_code": 400}, 400
 
-    return {"success": True}
+    
+    user_model = UsersModel()
+    
+    # Checking if email is already registered
+    user = user_model.get_user_by_email(email=email.strip())
+    if user:
+        return {"success": False, "error": "Email is already registered", "status_code": 409}, 409
+
+    # Hashing password
+    hashed_password = hash_password(password=password.strip())
+
+    new_user = user_model.add_user(fullname=fullname.strip(), email=email.strip(), password=hashed_password.strip())
+    new_user.pop("password")
+    
+    if new_user:
+        return {"success": True, "message": "User is created", "user": new_user, "status_code": 201}, 201
+
+    return {"success": True, "error": "Unable to create user", "status_code": 400}, 400

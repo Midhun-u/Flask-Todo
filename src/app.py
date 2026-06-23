@@ -20,7 +20,7 @@ if __name__ == "__main__":
     load_dotenv()
     port = getenv("PORT") if getenv("PORT") else 5000
 
-    # Connecting to database
+    # Connecting to the database
     connect_to_database()
 
     app.run(debug=True, port=port)
