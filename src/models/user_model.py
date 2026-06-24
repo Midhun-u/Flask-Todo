@@ -28,7 +28,6 @@ class UserModel:
 
         with session:
             statement = select(Users).where(Users.email == email)
-            results = session.execute(statement)
+            user = session.execute(statement).first()
 
-            for user in results:
-                return user[0]
+            return user

@@ -1,6 +1,7 @@
 from sqlmodel import create_engine, SQLModel
 from os import getenv
 from schemas.user_schema import Users
+from schemas.todo_schema import Todos
 from dotenv import load_dotenv
 
 load_dotenv()
