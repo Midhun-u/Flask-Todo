@@ -1,6 +1,7 @@
 from flask import request, Response
 from models.user_model import UsersModel
 from utils.hash_password import hash_password
+from utils.generate_auth_token import generate_auth_token
 
 def sign_controller():
     
@@ -37,6 +38,7 @@ def sign_controller():
     new_user.pop("password")
     
     if new_user:
-        return {"success": True, "message": "User is created", "user": new_user, "status_code": 201}, 201
+        auth_token = generate_auth_token(new_user)
+        return {"success": True, "message": "User is created", "user": new_user, "auth_token": auth_token, "status_code": 201}, 201
 
     return {"success": True, "error": "Unable to create user", "status_code": 400}, 400
