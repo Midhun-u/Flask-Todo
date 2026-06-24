@@ -3,7 +3,7 @@ from sqlmodel import Session, select
 from config.db import engine
 from utils.handle_error import handle_error
 
-class UsersModel:
+class UserModel:
     
     def __init__(self):
         pass

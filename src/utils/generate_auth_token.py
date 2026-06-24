@@ -4,7 +4,7 @@ from os import getenv
 
 load_dotenv()
 
-def generate_auth_token(user: dict[str, any]): 
+def generate_auth_token(user: dict[str, any]) -> str | None: 
     
     jwt_secret_key = getenv("JWT_SECRET")
     

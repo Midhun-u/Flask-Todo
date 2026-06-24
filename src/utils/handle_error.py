@@ -1,5 +1,7 @@
+from types import FunctionType
+
 # Decorator for handling errors
-def handle_error(fn): 
+def handle_error(fn: FunctionType) -> FunctionType: 
     
     def wrapper(*args, **kwargs):
         try:
