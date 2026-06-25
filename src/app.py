@@ -9,10 +9,18 @@ app = Flask(__name__)
 
 # Routes
 register_blueprints(app=app)
-
 @app.route("/api/v1")
 def index():
     return {"success": True, "status": "Running", "status_code": 200}
+
+# Error handler
+@app.errorhandler(500)
+def error_handler(error):
+    return {
+        "success": False,
+        "error": "Server error",
+        "status_code": 500
+    }, 500
 
 if __name__ == "__main__":
 

@@ -39,7 +39,9 @@ def login_controller():
         return {"success": False, "error": "Email or password is incorrect", "status_code": 400}, 400
 
     # Generating auth token
-    user_dict = user.dict()
+    user_dict: dict[str, any] = user.dict()
+    user_dict.pop("password")
+    user_dict.pop("create_at")
     auth_token = generate_auth_token(user=user_dict)
     
     return {"success": True, "message": "Login success", "auth_token": auth_token, "status_code": 200}, 200

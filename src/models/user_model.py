@@ -28,6 +28,6 @@ class UserModel:
 
         with session:
             statement = select(Users).where(Users.email == email)
-            user = session.execute(statement).first()
+            user = session.execute(statement).scalars().first()
 
             return user

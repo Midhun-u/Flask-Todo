@@ -40,11 +40,12 @@ def sign_controller():
     # Hashing password
     hashed_password = hash_password(password=password.strip())
 
-    new_user = user_model.add_user(fullname=fullname.strip(), email=email.strip(), password=hashed_password.strip())
+    new_user: dict[str, any] | None = user_model.add_user(fullname=fullname.strip(), email=email.strip(), password=hashed_password.strip())
     
     if new_user:
         # Removing password from user dictionary
         new_user.pop("password")
+        new_user.pop("created_at")
         auth_token = generate_auth_token(new_user)
         return {"success": True, "message": "User is created", "user": new_user, "auth_token": auth_token, "status_code": 201}, 201
 
