@@ -5,7 +5,7 @@ from controllers.auth.get_profile_controller import get_profile_controller
 from middlewares.auth import auth_middleware
 
 # Auth Blueprint
-auth_blueprint = Blueprint("auth", __name__, url_prefix="/api/v1/auth")
+auth_blueprint = Blueprint(name="auth", import_name=__name__, url_prefix="/api/v1/auth")
 
 # Handling authorization
 @auth_blueprint.before_request

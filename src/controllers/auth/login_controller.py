@@ -7,6 +7,10 @@ from utils.generate_auth_token import generate_auth_token
 def login_controller(): 
     
     body: dict[str, any] = request.get_json()
+
+    if not body:
+        return {"success": False, "error":  "All fields are required", "status_code": 400}, 400
+
     email = body.get("email")
     password = body.get("password")
     
@@ -41,7 +45,7 @@ def login_controller():
     # Generating auth token
     user_dict: dict[str, any] = user.dict()
     user_dict.pop("password")
-    user_dict.pop("create_at")
+    user_dict.pop("created_at")
     auth_token = generate_auth_token(user=user_dict)
     
     return {"success": True, "message": "Login success", "auth_token": auth_token, "status_code": 200}, 200

@@ -7,6 +7,10 @@ from utils.generate_auth_token import generate_auth_token
 def sign_controller():
     
     body: dict[str, any] = request.get_json()
+
+    if not body:
+        return {"success": False, "error":  "All fields are required", "status_code": 400}, 400
+
     fullname = body.get("fullname")
     email = body.get("email")
     password = body.get("password")

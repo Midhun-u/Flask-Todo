@@ -12,8 +12,8 @@ class UserModel:
     def add_user(self, fullname: str, email: str, password: str) -> dict[str, any] | None:
    
         user = Users(fullname=fullname, email=email, password=password)
-
         session = Session(engine)
+        
         with session:
             session.add(user)
             session.commit()
