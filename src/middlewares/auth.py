@@ -3,6 +3,7 @@ from utils.auth_protected_routes import auth_protected_routes
 from jwt import decode
 from os import getenv
 from dotenv import load_dotenv
+from models.user_model import UserModel
 
 # Function for handling authorization
 def auth_middleware():
@@ -31,10 +32,21 @@ def auth_middleware():
         jwt_secret = getenv("JWT_SECRET")
 
         try:     
-            user = decode(jwt=auth_token, key=jwt_secret, algorithms="HS256")
-            if user:
-                request.user = user
-            else:
+            decoded_data = decode(jwt=auth_token, key=jwt_secret, algorithms="HS256")
+
+            if not decoded_data:
                 return {"success": False, "error": "Unauthorized user", "status_code": 401}, 401
+
+            user_model = UserModel()
+            user = user_model.get_user_by_id(decoded_data.get("id"))
+
+            if not user:
+                return {"success": False, "error": "Invalid user", "status_code": 403}, 403
+
+            user_dict: dict[str, any] = user.dict()
+            user_dict.pop("password")
+
+            request.user = user_dict
+
         except Exception as exception:
             return {"success": False, "error": "Invalid token", "status_code": 403}, 403
