@@ -2,6 +2,7 @@ from flask import Blueprint
 from middlewares.auth import auth_middleware
 from controllers.todo.add_todo_controller import add_todo_controller
 from controllers.todo.get_user_todos_controller import get_user_todos_controller
+from controllers.todo.get_todo_controller import get_todo_controller
 
 # Todo Blueprint
 todo_blueprint = Blueprint(name="todo", import_name=__name__, url_prefix="/api/v1/todo")
@@ -20,3 +21,8 @@ def add_todo():
 @todo_blueprint.get("/get-user-todos/")
 def get_user_todos():
     return get_user_todos_controller()
+
+# Route for getting specific user todo
+@todo_blueprint.get("/get-todo/<string:todo_id>")
+def get_todo(todo_id):
+    return get_todo_controller(todo_id=todo_id)
