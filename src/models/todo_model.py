@@ -1,6 +1,6 @@
 from utils.handle_error import handle_error
 from schemas.todo_schema import Todos
-from sqlmodel import Session
+from sqlmodel import Session, select
 from config.db import engine
 from schemas.todo_schema import Todos
 
@@ -21,3 +21,14 @@ class TodoModel():
             session.refresh(todo)
 
         return todo.dict()
+
+    @handle_error
+    def get_user_todos(self, user_id: str, page: int, limit: int):
+        
+        session = Session(engine)
+        statement = select(Todos).where(Todos.user_id == user_id).offset((page - 1) * limit).limit(limit).order_by(Todos.created_at)
+
+        with session:
+            results = session.execute(statement=statement).scalars().all()
+            todos = [result.dict() for result in results]
+            return todos

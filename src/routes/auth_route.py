@@ -13,16 +13,16 @@ def before_request():
     return auth_middleware()
 
 # Route for signing
-@auth_blueprint.post("/sign")
+@auth_blueprint.post("/sign/")
 def sign():
     return sign_controller()
 
 # Route for login
-@auth_blueprint.post("/login")
+@auth_blueprint.post("/login/")
 def login(): 
     return login_controller()
 
 # Route for getting user profile
-@auth_blueprint.get("/get-profile")
+@auth_blueprint.get("/get-profile/")
 def get_profile():
     return get_profile_controller()

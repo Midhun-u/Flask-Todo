@@ -1,4 +1,5 @@
 auth_protected_routes = {
     "/get-profile",
-    "/add-todo"
+    "/add-todo",
+    "/get-user-todos"
 }
