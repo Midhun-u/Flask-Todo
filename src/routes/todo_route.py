@@ -4,6 +4,7 @@ from controllers.todo.add_todo_controller import add_todo_controller
 from controllers.todo.get_user_todos_controller import get_user_todos_controller
 from controllers.todo.get_todo_controller import get_todo_controller
 from controllers.todo.update_todo_controller import update_todo_controller
+from controllers.todo.delete_todo_controller import delete_todo_controller
 
 # Todo Blueprint
 todo_blueprint = Blueprint(name="todo", import_name=__name__, url_prefix="/api/v1/todo")
@@ -32,3 +33,8 @@ def get_todo(todo_id: str):
 @todo_blueprint.patch("/update-todo/<string:todo_id>")
 def update_todo(todo_id: str):
     return update_todo_controller(todo_id=todo_id)
+
+# Route for deleting todo
+@todo_blueprint.delete("/delete-todo/<string:todo_id>")
+def delete_todo(todo_id: str):
+    return delete_todo_controller(todo_id=todo_id)

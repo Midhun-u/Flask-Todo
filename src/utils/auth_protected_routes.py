@@ -3,5 +3,6 @@ auth_protected_routes = {
     "/add-todo",
     "/get-user-todos",
     "/get-todo",
-    "/update-todo"
+    "/update-todo",
+    "/delete-todo"
 }

@@ -1,8 +1,8 @@
 from flask import request
 from models.todo_model import TodoModel
 
-def get_todo_controller(todo_id: str):
-   
+def delete_todo_controller(todo_id: str):
+
     auth_user: dict[str, any] = request.user
 
     if not auth_user:
@@ -11,4 +11,10 @@ def get_todo_controller(todo_id: str):
     todo_model = TodoModel()
     todo: dict[str, any] | None = todo_model.get_todo_by_id_and_user_id(todo_id, auth_user.get("id"))
 
-    return {"success": True, "todo": todo, "status_code": 200}
+    if not todo:
+        return {"success": False, "error": "Todo is not found", "status_code": 404}, 404
+
+    is_deleted = todo_model.delete_todo_by_id_and_user_id(todo_id, auth_user.get("id"))
+    print(is_deleted)
+
+    return {"success": True}
