@@ -14,7 +14,9 @@ def delete_todo_controller(todo_id: str):
     if not todo:
         return {"success": False, "error": "Todo is not found", "status_code": 404}, 404
 
-    is_deleted = todo_model.delete_todo_by_id_and_user_id(todo_id, auth_user.get("id"))
-    print(is_deleted)
+    is_deleted: bool = todo_model.delete_todo_by_id_and_user_id(todo_id, auth_user.get("id"))
 
-    return {"success": True}
+    if not is_deleted:
+        return {"success": False, "error": "Unable to delete the todo", "status_code": 500}, 500
+
+    return {"success": True, "message": "Todo is deleted", "status_code": 200}, 200

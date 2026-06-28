@@ -77,9 +77,11 @@ class TodoModel():
         ))
 
         with session:
-            todo = session.execute(statement=statement).first()
-            session.delete(todo)
-            session.commit()
-            session.refresh(todo)
+            todo = session.exec(statement=statement).first()
+
+            if todo:
+                session.delete(todo)
+                session.commit()
+                todo = None
 
         return True if not todo else False
