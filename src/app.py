@@ -31,4 +31,4 @@ if __name__ == "__main__":
     # Connecting to the database
     connect_to_database()
 
-    app.run(debug=True, port=port)
+    app.run(debug=False, port=port)
